@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.profile{
+    display: grid;
+    place-content: center;
+    margin-top: 40px;
+
+}
+.profile img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}

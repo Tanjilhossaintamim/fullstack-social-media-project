@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+Update Profile
+{% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login/form.css' %}">
+{% endblock css %}
+
+
+
+
+{% block body_block %}
+<div class="form-container">
+
+    {% if messages %}
+
+    {% for message in messages %}
+    <div class="alert alert-danger text-center" role="alert" id="alert">{{message}}</div>
+
+    {% endfor %}
+    {% endif %}
+
+
+    <h1 class="title">Update Your Profile</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {{form|crispy}}
+        {% csrf_token %}
+        <input type="submit" value="Update" class="submit-btn">
+
+    </form>
+</div>
+
+{% endblock body_block %}
+
+
+{% block js %}
+<script>
+    let alert_display = document.querySelector('#alert')
+    setTimeout(() => {
+        alert_display.innerText = ''
+        alert_display.classList.remove('alert')
+    }, 2000)
+</script>
+{% endblock js %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+My Post
+{% endblock title %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/post_app/post.css' %}">
+
+{% endblock css %}
+
+{% block body_block %}
+
+
+{% if user_post %}
+
+
+
+{% for post in posts %}
+
+
+
+<div class="post-container">
+    <div class="user">
+        <div class="user-info">
+            <a href="{% url 'post_app:profile_details' id=post.user.pk%}"><img
+                    src="{{post.user.user_profile.profile_pic.url}}" alt="" class="user-img"></a>
+            <div class="user-name">
+
+                <h6>{{post.user.first_name}} {{post.user.last_name}}</h6>
+                <small>{{post.publish_at}}</small>
+            </div>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-ellipsis fa-xl"></i>
+            <i class="fa-solid fa-xmark fa-xl"></i>
+        </div>
+    </div>
+    <div class="post">
+
+        <p>{{post.post_content|range_filter|linebreaks}} <a href="{% url 'post_app:post_details' id=post.pk %}"
+                class="text-decoration-none">see more</a></p>
+        <p><a href="{% url 'post_app:edit_post' pk=post.pk%}">Edit Post</a></p>
+        <a href="{% url 'post_app:post_details' id=post.pk %}">
+            <img src="{{post.post_image.url}}" width="100%"></a>
+
+
+        {% if like %}
+
+        {% if post.like_post.count == 1 %}
+        <div class="pt-2" style="display: flex;justify-content:space-between;align-items:center">
+            <p><i class="fa-solid fa-thumbs-up" style="color: #0730d5;"></i> you like this</p>
+            <span>{{post.post_comment.count}} comments</span>
+        </div>
+        {% else %}
+
+        <div class="pt-2" style="display: flex;justify-content:space-between;align-items:center">
+            <p><i class="fa-solid fa-thumbs-up" style="color: #0730d5;"></i> you and
+                {{post.like_post.count|add:"-1"}}
+                others</p>
+            <a href="{% url 'post_app:post_details' id=post.pk %}"
+                class="text-decoration-none text-black"><span>{{post.post_comment.count}} comments</span></a>
+        </div>
+        {% endif %}
+
+
+
+
+        {% else %}
+
+        {% if post.like_post.count == 0 %}
+        <div class="pt-2" style="display: flex;justify-content:end;align-items:center">
+            <a href="{% url 'post_app:post_details' id=post.pk %}"
+                class="text-decoration-none text-black"><span>{{post.post_comment.count}} comments</span></a>
+        </div>
+        {% else %}
+        <div class="pt-2" style="display: flex;justify-content:space-between;align-items:center"> <i
+                class="fa-solid fa-thumbs-up" style="color: #0730d5;"> {{post.like_post.count}}</i>
+            <a href="{% url 'post_app:post_details' id=post.pk %}"
+                class="text-decoration-none text-black"><span>{{post.post_comment.count}} comments</span></a>
+        </div>
+
+        {% endif %}
+
+
+        {% endif %}
+
+        <div class="reaction">
+
+            {% if like %}
+            <a href="{% url 'post_app:unlike' id=post.pk %}"><i class="fa-solid fa-thumbs-up"
+                    style="color: #0730d5;"></i>&nbsp; Unlike </a>
+            {% else %}
+            <a href="{% url 'post_app:like' id=post.pk %}"><i class="fa-regular fa-thumbs-up"></i>&nbsp; like </a>
+            {% endif %}
+
+            <a href="#"><i class="fa-regular fa-comment"></i> &nbsp;Comment</a>
+            <a href="#"><i class="fa-solid fa-share"></i>&nbsp; Share </a>
+        </div>
+    </div>
+
+
+</div>
+{% endfor %}
+{% else %}
+<h5 class="mt-4 text-center">You have no Posts😧</h5>
+
+{% endif %}
+
+
+{% endblock body_block %}

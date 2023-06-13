@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/css/login/mainprofile.css' %}">
+{% endblock css %}
+
+
+{% block body_block %}
+
+{% if user.user_profile %}
+<div class="profile">
+    <img src="{{user.user_profile.profile_pic.url}}">
+    <p>FullName : {{user.first_name}} {{user.last_name}}</p>
+    <p>Email : {{user.email}}</p>
+    <p>Gender : {{user.user_profile.gender}}</p>
+    <p>Date Of Birth : {{user.user_profile.date_of_birth}}</p>
+    <p>Follower : {{user.follow_user.count}}</p>
+    <p>Following : {{user.following_user.count}}</p>
+    <a href="{% url 'login:edit_profile' %}" class="btn btn-info btn-m">Edit Profile</a>
+</div>
+{% else %}
+<h1>You didn't update your profile Yet update First</h1>
+<a href="{% url 'login:update_profile' %}" class="btn btn-info btn-m">Update Profile</a>
+{% endif %}
+
+
+{% endblock body_block %}

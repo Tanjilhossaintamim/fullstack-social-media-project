@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+Edit Profile
+{% endblock title %}
+
+
+{% block body_block %}
+<form action="" method="post" enctype="multipart/form-data" class="mt-5">
+    <h1 class="text-center">Edit Profile</h1>
+
+    {% if updated %}
+    <div class="alert alert-success text-center" role="alert" id="alert">Update SuccessFully</div>
+
+    {% endif %}
+
+    {% csrf_token %}
+    {{user_form|crispy}}
+    {{form|crispy}}
+    <input type="submit" value="Update" class="btn btn-success btn-m">
+    <a href="{%url 'login:change_password' %}" class="btn btn-secondary btn-m">Change Password</a>
+</form>
+
+{% endblock body_block %}
+
+
+{% block js %}
+<script>
+    let alert_display = document.querySelector('#alert')
+    setTimeout(() => {
+        alert_display.innerText = ''
+        alert_display.classList.remove('alert')
+    }, 2000)
+</script>
+{% endblock js %}
